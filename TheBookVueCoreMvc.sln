@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.156
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheBookVueCoreMvc", "TheBookVueCoreMvc\TheBookVueCoreMvc.csproj", "{13DE466B-3381-4FB9-8CFD-0E1DFB3BF8FB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{13DE466B-3381-4FB9-8CFD-0E1DFB3BF8FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13DE466B-3381-4FB9-8CFD-0E1DFB3BF8FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13DE466B-3381-4FB9-8CFD-0E1DFB3BF8FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13DE466B-3381-4FB9-8CFD-0E1DFB3BF8FB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5F8B1E89-2A51-4A22-8886-6BCA9314B244}
+	EndGlobalSection
+EndGlobal

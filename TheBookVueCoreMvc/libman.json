@@ -1,0 +1,22 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "axios@0.19.0",
+      "destination": "wwwroot/lib/axios/"
+    },
+    {
+      "library": "vuetify@1.5.14",
+      "destination": "wwwroot/lib/vuetify/"
+    },
+    {
+      "library": "vue@2.6.10",
+      "destination": "wwwroot/lib/vue/"
+    },
+    {
+      "library": "vue-material-components@0.3.4",
+      "destination": "wwwroot/lib/vue-material-components/"
+    }
+  ]
+}

@@ -1,0 +1,187 @@
+﻿@model IEnumerable<Chapter>
+
+@{
+    ViewData["Title"] = "GetChaptersAsyncView";
+}
+
+
+
+<h2>GetChaptersAsync</h2>
+
+@*<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+</head>*@
+<body>
+    <div id="app">
+        <v-app>
+            <v-content>
+                <v-btn color="blue" flat v-on:click="onGetAll">Update</v-btn>
+                <v-treeview :active.sync="active"
+                            :items="items"
+                            :load-children="onGetAll"
+                            :open.sync="open"
+                            activatable
+                            item-key="typeId"
+                            open-on-click
+                            return-object
+                            transition>
+                    <template v-slot:prepend="{ item, open }">
+                        <v-icon>
+                            info
+                        </v-icon>
+                        <v-btn :id="item" v-if="item.type == 'Root'" v-on:click="openDialog(item)">Edit</v-btn> 
+                    </template>
+                </v-treeview>
+
+                <v-dialog v-model="dialog" persistent max-width="600px">
+
+                    <v-card>
+                        <v-card-title>
+                            <span class="headline">Data Profile</span>
+                        </v-card-title>
+                        <v-card-text>
+                            <v-container grid-list-md >
+                                <v-layout wrap>
+                                    <v-flex xs12 sm6 md4>
+                                        <v-text-field label="modelName*" :placeholder="isSelected.code" disabled></v-text-field>
+                                    </v-flex>
+                                    <v-flex xs12 sm6 md4>
+                                        <v-text-field label="data type*" :placeholder="isSelected.type" hint="the data type" required disabled></v-text-field>
+                                    </v-flex>
+                                    <v-flex xs12 sm6 md4>
+                                        <v-text-field label="name" v-model="isSelected.name" hint="new name">{{isSelected.name}}</v-text-field>
+                                    </v-flex>
+                                </v-layout>
+                            </v-container>
+                            <small>*indicates required field</small>
+                        </v-card-text>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn color="blue darken-1" flat
+                                   :loading="isUpdate"
+                                   :disabled="isUpdate"
+                                   v-on:click="onUpdate">Update</v-btn>
+                            <v-btn color="blue darken-1" flat v-on:click="dialog = false">Close</v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+            </v-content>
+        </v-app>
+    </div>
+
+    <script>
+
+        Vue.use(Vuetify , axios);
+
+
+        new Vue({
+            el: '#app',
+            data: {
+                active: [],
+                open: ['public'],
+                rootsCotext: [],
+                chaptersCotext: [],
+                chaptersForItems: [],
+                dialog: false,
+                isUpdate: false,
+                isSelected: {},
+                files: {
+                    chapter: '',
+                    png: '',
+                },
+                tree: [],
+                //items: [{
+                //    id: 0,
+                //    name: 'data',
+                //    children: this.chaptersForItems
+                //}]
+            }, computed: {
+                items() {
+                    console.log("items=== update")
+                    return [
+                        {
+                            name: 'Data',
+                            children: this.chaptersForItems
+                        }
+                    ]
+                },
+                selected() {
+                    if (!this.active.length) return undefined
+
+                    const id = this.active[0]
+                    //this.dialog = true
+                    console.log("selected == " + this.active[0].typeId)
+                    this.isSelected = this.active[0];
+                    return this.active[0]
+                }
+
+            },
+            watch: {
+                chaptersCotext(val) {
+                    console.log("update watch chapters ")
+                    var listForReplace = JSON.stringify(val)
+                    console.log("update watch chapters " + listForReplace)
+                    listForReplace = listForReplace.replace(/"roots":/g, '"children":')
+                    this.rootsCotext = val.reduce(function (accumulator, currentValue) {
+                        return [...accumulator, ...currentValue.roots];
+                    }, []).sort();
+                    this.chaptersForItems = JSON.parse(listForReplace)
+                }
+            },
+            methods: {
+                randomAvatar() {
+                    this.avatar = avatars[Math.floor(Math.random() * avatars.length)]
+                },
+                openDialog(val) {
+                    this.isSelected = val;
+                    this.dialog = !this.dialog
+
+                },
+
+
+                async onGetAll() {
+                    console.log('in onGetAll')
+                    this.isUpdate = true
+                    console.log('in onGetAll ==> axios')
+                    await axios.get('/Chapters/GetChaptersAsyncData')
+                        .then(response => {
+                            console.log('response==>' + response + '==' + JSON.stringify(response.data))
+                            // this.countries.push(response.data)
+                            this.chaptersCotext = response.data
+                            // console.log("response==>" + this.countries.push(response.data) + "==" + response.data)
+                        })
+                        .catch(err => console.log(err))
+                    this.isUpdate = false
+                },
+
+
+                async onUpdate() {
+                    this.isUpdate = true
+                    console.log('in update')
+                    var tempCheck = this.isSelected
+                    console.log('in update ==> axios')
+                    await axios.post('/Chapters/UpdateRootAsync', this.isSelected).then(response => {
+                        if (this.isSelected === response.data) {
+                            console.log('good update')
+                        } else {
+                            console.log(' not good update  ' + response.data + '==' + response + '==' + response.data.value + '==' + tempCheck)
+                        }
+                        this.isSelected = response.data
+                        console.log('in update ==> axios==> ' + response.data)
+                    })
+                        .catch(err => {
+                            console.log(err)
+                        })
+
+                    this.isUpdate = false
+
+                }
+            }
+
+
+
+            });
+    </script>
+</body>
