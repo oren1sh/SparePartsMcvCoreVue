@@ -5,9 +5,9 @@ using TheBookVueCoreMvc.Models;
 
 namespace TheBookVueCoreMvc.DataLayer.Interfaces
 {
-    public interface IRootsRepository
+    public interface IPartsRepository
     {
-        Task<List<Root>> GetRootsAsync();
-        Task<Root> UpdateRootAsync(Root upRoot);
+        Task<List<Part>> GetPartsAsync();
+        Task<Part> UpdatePartAsync(Part upPart);
     }
 }

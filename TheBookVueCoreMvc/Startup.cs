@@ -30,10 +30,10 @@ namespace TheBookVueCoreMvc
         {
 
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("TestDataBase")));
-            //adding ChaptersRepository to services
-            services.AddScoped<IRootsRepository, RootsRepository>();
-            //adding ChaptersRepository to services
-            services.AddScoped<IChaptersRepository, ChaptersRepository>();
+            //adding CarsRepository to services
+            services.AddScoped<IPartsRepository, PartsRepository>();
+            //adding CarsRepository to services
+            services.AddScoped<ICarsRepository, CarsRepository>();
 
 
 
@@ -69,7 +69,7 @@ namespace TheBookVueCoreMvc
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Chapters}/{action=GetChaptersAsync}/{id?}");
+                    template: "{controller=Cars}/{action=GetCarsAsync}/{id?}");
             });
         }
     }

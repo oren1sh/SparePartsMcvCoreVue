@@ -9,22 +9,22 @@ using System.Xml.Serialization;
 
 namespace TheBookVueCoreMvc.Models
 {
-    public class Root:BaseModel
+    public class Part:BaseModel
     {
         [Required]
-        [Column("CommodityChapterId")]
-        public int ChapterId { get; set; }
+        [Column("CommodityCarId")]
+        public int CarId { get; set; }
 
         [JsonIgnore]
 
-        public virtual Chapter Chapter { get; set; }
+        public virtual Car Car { get; set; }
 
         /// <summary>
         /// props for vue front
         /// </summary>
 
         [XmlIgnore]
-        public string Type { get; } = "Root";
+        public string Type { get; } = "Part";
 
     }
 }

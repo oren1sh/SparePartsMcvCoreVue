@@ -5,9 +5,9 @@ using TheBookVueCoreMvc.Models;
 
 namespace TheBookVueCoreMvc.DataLayer.Interfaces
 {
-    public interface IChaptersRepository
+    public interface ICarsRepository
     {
-        Task<List<Chapter>> GetChaptersAsync();
-        Task<Chapter> UpdateChapterAsync(Chapter upChapter);
+        Task<List<Car>> GetCarsAsync();
+        Task<Car> UpdateCarAsync(Car upCar);
     }
 }

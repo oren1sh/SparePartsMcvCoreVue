@@ -11,17 +11,17 @@ using TheBookVueCoreMvc.Models;
 
 namespace TheBookVueCoreMvc.Controllers
 {
-    public class ChaptersController : Controller
+    public class CarsController : Controller
     {
         private readonly AppDbContext _context;
-        private readonly IRootsRepository _roots;
-        private readonly IChaptersRepository _chapters;
+        private readonly IPartsRepository _Parts;
+        private readonly ICarsRepository _Cars;
 
-        public ChaptersController(AppDbContext context, IRootsRepository roots, IChaptersRepository chapters)
+        public CarsController(AppDbContext context, IPartsRepository Parts, ICarsRepository Cars)
         {
             _context = context;
-            _roots = roots;
-            _chapters = chapters;
+            _Parts = Parts;
+            _Cars = Cars;
         }
 
 
@@ -30,35 +30,35 @@ namespace TheBookVueCoreMvc.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<List<Chapter>> GetChaptersAsyncData()
+        public async Task<List<Car>> GetCarsAsyncData()
         {
-            return await _chapters.GetChaptersAsync();
+            return await _Cars.GetCarsAsync();
         }
 
-        // GET: Chapters
-        public async Task<IActionResult> GetChaptersAsync()
+        // GET: Cars
+        public async Task<IActionResult> GetCarsAsync()
         {
-            return View(await _chapters.GetChaptersAsync());
+            return View(await _Cars.GetCarsAsync());
         }
         /// <summary>
-        /// uptdate root
+        /// uptdate Part
         /// </summary>
-        /// <param name="upRoot"></param>
+        /// <param name="upPart"></param>
         /// <returns></returns>
-        public async Task<Root> UpdateRootAsync([FromBody]Root upRoot)
+        public async Task<Part> UpdatePartAsync([FromBody]Part upPart)
         {
-            return await _roots.UpdateRootAsync(upRoot);
+            return await _Parts.UpdatePartAsync(upPart);
         }
 
 
 
-        // GET: Chapters
+        // GET: Cars
         public async Task<IActionResult> Index()
         {
-            return View(await _chapters.GetChaptersAsync());
+            return View(await _Cars.GetCarsAsync());
         }
 
-        // GET: Chapters/Details/5
+        // GET: Cars/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -66,39 +66,39 @@ namespace TheBookVueCoreMvc.Controllers
                 return NotFound();
             }
 
-            var chapter = await _context.CommodityChapters
+            var Car = await _context.CommodityCars
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (chapter == null)
+            if (Car == null)
             {
                 return NotFound();
             }
 
-            return View(chapter);
+            return View(Car);
         }
 
-        // GET: Chapters/Create
+        // GET: Cars/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Chapters/Create
+        // POST: Cars/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Discripton,Code,Active")] Chapter chapter)
+        public async Task<IActionResult> Create([Bind("Id,Name,Discripton,Code,Active")] Car Car)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(chapter);
+                _context.Add(Car);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(chapter);
+            return View(Car);
         }
 
-        // GET: Chapters/Edit/5
+        // GET: Cars/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -106,22 +106,22 @@ namespace TheBookVueCoreMvc.Controllers
                 return NotFound();
             }
 
-            var chapter = await _context.CommodityChapters.FindAsync(id);
-            if (chapter == null)
+            var Car = await _context.CommodityCars.FindAsync(id);
+            if (Car == null)
             {
                 return NotFound();
             }
-            return View(chapter);
+            return View(Car);
         }
 
-        // POST: Chapters/Edit/5
+        // POST: Cars/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Discripton,Code,Active")] Chapter chapter)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Discripton,Code,Active")] Car Car)
         {
-            if (id != chapter.Id)
+            if (id != Car.Id)
             {
                 return NotFound();
             }
@@ -130,12 +130,12 @@ namespace TheBookVueCoreMvc.Controllers
             {
                 try
                 {
-                    _context.Update(chapter);
+                    _context.Update(Car);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ChapterExists(chapter.Id))
+                    if (!CarExists(Car.Id))
                     {
                         return NotFound();
                     }
@@ -146,10 +146,10 @@ namespace TheBookVueCoreMvc.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(chapter);
+            return View(Car);
         }
 
-        // GET: Chapters/Delete/5
+        // GET: Cars/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -157,30 +157,30 @@ namespace TheBookVueCoreMvc.Controllers
                 return NotFound();
             }
 
-            var chapter = await _context.CommodityChapters
+            var Car = await _context.CommodityCars
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (chapter == null)
+            if (Car == null)
             {
                 return NotFound();
             }
 
-            return View(chapter);
+            return View(Car);
         }
 
-        // POST: Chapters/Delete/5
+        // POST: Cars/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var chapter = await _context.CommodityChapters.FindAsync(id);
-            _context.CommodityChapters.Remove(chapter);
+            var Car = await _context.CommodityCars.FindAsync(id);
+            _context.CommodityCars.Remove(Car);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ChapterExists(int id)
+        private bool CarExists(int id)
         {
-            return _context.CommodityChapters.Any(e => e.Id == id);
+            return _context.CommodityCars.Any(e => e.Id == id);
         }
     }
 }

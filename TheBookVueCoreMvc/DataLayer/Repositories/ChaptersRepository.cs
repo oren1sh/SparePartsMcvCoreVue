@@ -9,55 +9,55 @@ using TheBookVueCoreMvc.Models;
 
 namespace TheBookVueCoreMvc.DataLayer.Repositories
 {
-    public class ChaptersRepository : IChaptersRepository
+    public class CarsRepository : ICarsRepository
     {
         private readonly AppDbContext _context;
 
-        public ChaptersRepository(AppDbContext context)
+        public CarsRepository(AppDbContext context)
         {
             _context = context;
         }
 
 
         /// <summary>
-        /// get all the roots 
+        /// get all the Parts 
         /// </summary>
         /// <returns></returns>
-        public async Task<List<Chapter>> GetChaptersAsync()
+        public async Task<List<Car>> GetCarsAsync()
         {
-            List<Chapter> chapters =  await _context.CommodityChapters.Include(c => c.Roots).ToListAsync();
-            chapters.ForEach(item => { item.TypeId = item.Type + "-" + item.Id;});
-            chapters.ForEach(item =>
+            List<Car> Cars =  await _context.CommodityCars.Include(c => c.Parts).ToListAsync();
+            Cars.ForEach(item => { item.TypeId = item.Type + "-" + item.Id;});
+            Cars.ForEach(item =>
             {
-                foreach (var root in item.Roots)
+                foreach (var Part in item.Parts)
                 {
-                    root.TypeId = root.Type + "-" + root.Id;
+                    Part.TypeId = Part.Type + "-" + Part.Id;
                 }
             });
-            return chapters;
+            return Cars;
 
         }
 
 
         /// <summary>
-        /// update Chapter name by id
+        /// update Car name by id
         /// </summary>
-        /// <param name="upChapters"></param>
+        /// <param name="upCars"></param>
         /// <returns></returns>
-        public async Task<Chapter> UpdateChapterAsync(Chapter upChapter)
+        public async Task<Car> UpdateCarAsync(Car upCar)
         {
-            Chapter refChapter = await _context.CommodityChapters.FirstOrDefaultAsync(r => r.Id == upChapter.Id);
+            Car refCar = await _context.CommodityCars.FirstOrDefaultAsync(r => r.Id == upCar.Id);
 
-            if (refChapter == null || refChapter == default(Chapter))
+            if (refCar == null || refCar == default(Car))
             {
                 return null;
 
             }
-            refChapter.Name = upChapter.Name;
-            _context.CommodityChapters.Update(refChapter);
+            refCar.Name = upCar.Name;
+            _context.CommodityCars.Update(refCar);
             await _context.SaveChangesAsync();
 
-            return refChapter;
+            return refCar;
 
 
         }

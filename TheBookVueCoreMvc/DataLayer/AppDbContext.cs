@@ -14,9 +14,9 @@ namespace TheBookVueCoreMvc.DataLayer
         {
         }
 
-        public DbSet<Root> CommodityRoots { get; set; }
+        public DbSet<Part> ReferenceParts { get; set; }
 
-        public DbSet<Chapter> CommodityChapters { get; set; }
+        public DbSet<Car> DataCar { get; set; }
 
     }
 }

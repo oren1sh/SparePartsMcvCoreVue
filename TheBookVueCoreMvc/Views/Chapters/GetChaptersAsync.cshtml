@@ -1,12 +1,12 @@
-﻿@model IEnumerable<Chapter>
+﻿@model IEnumerable<Car>
 
 @{
-    ViewData["Title"] = "GetChaptersAsyncView";
+    ViewData["Title"] = "GetCarsAsyncView";
 }
 
 
 
-<h2>GetChaptersAsync</h2>
+<h2>GetCarsAsync</h2>
 
 @*<head>
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
@@ -31,7 +31,7 @@
                         <v-icon>
                             info
                         </v-icon>
-                        <v-btn :id="item" v-if="item.type == 'Root'" v-on:click="openDialog(item)">Edit</v-btn> 
+                        <v-btn :id="item" v-if="item.type == 'Part'" v-on:click="openDialog(item)">Edit</v-btn> 
                     </template>
                 </v-treeview>
 
@@ -81,21 +81,21 @@
             data: {
                 active: [],
                 open: ['public'],
-                rootsCotext: [],
-                chaptersCotext: [],
-                chaptersForItems: [],
+                PartsCotext: [],
+                CarsCotext: [],
+                CarsForItems: [],
                 dialog: false,
                 isUpdate: false,
                 isSelected: {},
                 files: {
-                    chapter: '',
+                    Car: '',
                     png: '',
                 },
                 tree: [],
                 //items: [{
                 //    id: 0,
                 //    name: 'data',
-                //    children: this.chaptersForItems
+                //    children: this.CarsForItems
                 //}]
             }, computed: {
                 items() {
@@ -103,7 +103,7 @@
                     return [
                         {
                             name: 'Data',
-                            children: this.chaptersForItems
+                            children: this.CarsForItems
                         }
                     ]
                 },
@@ -119,15 +119,15 @@
 
             },
             watch: {
-                chaptersCotext(val) {
-                    console.log("update watch chapters ")
+                CarsCotext(val) {
+                    console.log("update watch Cars ")
                     var listForReplace = JSON.stringify(val)
-                    console.log("update watch chapters " + listForReplace)
-                    listForReplace = listForReplace.replace(/"roots":/g, '"children":')
-                    this.rootsCotext = val.reduce(function (accumulator, currentValue) {
-                        return [...accumulator, ...currentValue.roots];
+                    console.log("update watch Cars " + listForReplace)
+                    listForReplace = listForReplace.replace(/"Parts":/g, '"children":')
+                    this.PartsCotext = val.reduce(function (accumulator, currentValue) {
+                        return [...accumulator, ...currentValue.Parts];
                     }, []).sort();
-                    this.chaptersForItems = JSON.parse(listForReplace)
+                    this.CarsForItems = JSON.parse(listForReplace)
                 }
             },
             methods: {
@@ -145,11 +145,11 @@
                     console.log('in onGetAll')
                     this.isUpdate = true
                     console.log('in onGetAll ==> axios')
-                    await axios.get('/Chapters/GetChaptersAsyncData')
+                    await axios.get('/Cars/GetCarsAsyncData')
                         .then(response => {
                             console.log('response==>' + response + '==' + JSON.stringify(response.data))
                             // this.countries.push(response.data)
-                            this.chaptersCotext = response.data
+                            this.CarsCotext = response.data
                             // console.log("response==>" + this.countries.push(response.data) + "==" + response.data)
                         })
                         .catch(err => console.log(err))
@@ -162,7 +162,7 @@
                     console.log('in update')
                     var tempCheck = this.isSelected
                     console.log('in update ==> axios')
-                    await axios.post('/Chapters/UpdateRootAsync', this.isSelected).then(response => {
+                    await axios.post('/Cars/UpdatePartAsync', this.isSelected).then(response => {
                         if (this.isSelected === response.data) {
                             console.log('good update')
                         } else {

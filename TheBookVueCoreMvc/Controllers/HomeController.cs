@@ -12,7 +12,7 @@ namespace TheBookVueCoreMvc.Controllers
     {
         public IActionResult Index()
         {
-            return Redirect("Chapters/index");
+            return Redirect("Cars/index");
             //return View();
         }
 

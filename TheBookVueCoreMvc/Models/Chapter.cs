@@ -6,9 +6,9 @@ using System.Xml.Serialization;
 
 namespace TheBookVueCoreMvc.Models
 {
-    public class Chapter:BaseModel
+    public class Car:BaseModel
     {
-        public List<Root> Roots { get; set; }
+        public List<Part> Parts { get; set; }
 
        
         /// <summary>
@@ -16,7 +16,7 @@ namespace TheBookVueCoreMvc.Models
         /// </summary>
 
         [XmlIgnore]
-        public string Type { get; } = "Chapter";
+        public string Type { get; } = "Car";
 
     }
 }

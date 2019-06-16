@@ -9,46 +9,46 @@ using TheBookVueCoreMvc.Models;
 
 namespace TheBookVueCoreMvc.DataLayer.Repositories
 {
-    public class RootsRepository : IRootsRepository
+    public class PartsRepository : IPartsRepository
     {
         private readonly AppDbContext _context;
 
-        public RootsRepository(AppDbContext context)
+        public PartsRepository(AppDbContext context)
         {
             _context = context;
         }
 
 
         /// <summary>
-        /// get all the roots 
+        /// get all the Parts 
         /// </summary>
         /// <returns></returns>
-        public async Task<List<Root>> GetRootsAsync()
+        public async Task<List<Part>> GetPartsAsync()
         {
-            return await _context.CommodityRoots.ToListAsync();
+            return await _context.CommodityParts.ToListAsync();
 
         }
 
 
         /// <summary>
-        /// update root name by id
+        /// update Part name by id
         /// </summary>
-        /// <param name="upRoot"></param>
+        /// <param name="upPart"></param>
         /// <returns></returns>
-        public async Task<Root> UpdateRootAsync(Root upRoot)
+        public async Task<Part> UpdatePartAsync(Part upPart)
         {
-            Root refRoot = await _context.CommodityRoots.FirstOrDefaultAsync(r => r.Id == upRoot.Id);
+            Part refPart = await _context.CommodityParts.FirstOrDefaultAsync(r => r.Id == upPart.Id);
 
-            if (refRoot == null || refRoot == default(Root))
+            if (refPart == null || refPart == default(Part))
             {
                 return null;
 
             }
-            refRoot.Name = upRoot.Name;
-            _context.CommodityRoots.Update(refRoot);
+            refPart.Name = upPart.Name;
+            _context.CommodityParts.Update(refPart);
             await _context.SaveChangesAsync();
 
-            return refRoot;
+            return refPart;
 
 
         }
